@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power Machine - Cotizador</title>
+
+<!-- iOS App Config -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Power Machine">
+<link rel="apple-touch-icon" href="icon_app.png">
+
+<style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    h2 { text-align: center; color: #E5007E; }
+    .card { background: white; padding: 15px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+    button { width: 100%; padding: 12px; background: #E5007E; color: white; border: none; border-radius: 4px; font-size: 16px; margin-top: 15px; }
+    .result { background: #eaf1fb; padding: 10px; margin-top: 10px; border-radius: 4px; font-weight: bold; }
+    #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+              background: white; display: flex; flex-direction: column;
+              justify-content: center; align-items: center; z-index: 9999; }
+    #splash img { width: 150px; height: 150px; margin-bottom: 15px; }
+    #splash h1 { color: #E5007E; font-size: 26px; margin: 0; }
+    #splash p { color: #555; font-size: 16px; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Splash screen -->
+<div id="splash">
+    <img src="icon_app.png" alt="Logo">
+    <h1>Power Machine</h1>
+    <p>Cotizador</p>
+</div>
+
+<h2>Cotizador de Impresión</h2>
+<div class="card">
+    <label>Precio por m² ($):</label>
+    <input type="number" id="precioM2" value="12000">
+
+    <label>Ancho (m):</label>
+    <input type="number" id="ancho" value="1" step="0.01">
+
+    <label>Alto (m):</label>
+    <input type="number" id="alto" value="1" step="0.01">
+
+    <label>Servicio de diseño ($):</label>
+    <input type="number" id="precioDiseno" value="10000">
+
+    <label><input type="checkbox" id="incluyeDiseno"> Incluir servicio de diseño</label>
+
+    <button onclick="calcular()">Calcular</button>
+    <div class="result" id="resultado"></div>
+</div>
+
+<script>
+// Ocultar splash después de 2 segundos siempre
+window.onload = function() {
+    setTimeout(function() {
+        var splash = document.getElementById("splash");
+        if (splash) splash.style.display = "none";
+    }, 2000);
+};
+
+function calcular() {
+    var precioM2 = parseFloat(document.getElementById("precioM2").value) || 0;
+    var ancho = parseFloat(document.getElementById("ancho").value) || 0;
+    var alto = parseFloat(document.getElementById("alto").value) || 0;
+    var precioDiseno = parseFloat(document.getElementById("precioDiseno").value) || 0;
+    var incluyeDiseno = document.getElementById("incluyeDiseno").checked;
+
+    var area = ancho * alto;
+    var base = area * precioM2;
+    var total = base + (incluyeDiseno ? precioDiseno : 0);
+
+    var texto = "Área: " + area.toFixed(2) + " m²<br>" +
+                "Precio base: $" + base.toLocaleString() + "<br>";
+    if (incluyeDiseno) {
+        texto += "Diseño: $" + precioDiseno.toLocaleString() + "<br>";
+    }
+    texto += "<strong>Total: $" + total.toLocaleString() + "</strong>";
+    document.getElementById("resultado").innerHTML = texto;
+}
+</script>
+
+</body>
+</html>
