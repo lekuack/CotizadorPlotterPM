@@ -25,7 +25,7 @@
     #splash h1 { color: #E5007E; font-size: 26px; margin: 0; }
     #splash p { color: #555; font-size: 16px; margin-top: 5px;}
     .checkbox-container{ display: inline-flex; align-items: center; width: 100%;}
-    #incluyeDiseno{width: 30px;}
+    .checkbox-container .checkbox{width: 30px;}
     .descuento-container{ width: 100%; margin-top:10px; padding-top:10px; border-top:1px solid #e3e3e3;}
     label { vertical-align: middle; margin-top: 10px; font-weight: bold;}
 </style>
@@ -53,12 +53,16 @@
     <label>Servicio de diseño ($):</label>
     <input type="number" id="precioDiseno" value="10000" onchange="calcular()">
     <div class="checkbox-container">
-      <input type="checkbox" id="incluyeDiseno" onchange="calcular()">
+      <input type="checkbox" class="checkbox" id="incluyeDiseno" onchange="calcular()">
       <label> Incluir servicio de diseño</label>
     </div>
     <div class="descuento-container">
         <label>Descuento ($):</label>
-        <input type="number" id="precioDiseno" value="10000" onchange="calcular()">
+        <input type="number" min="0" id="precioDescuento"  onchange="calcular()">
+    </div>
+    <div class="checkbox-container">
+      <input type="checkbox" class="checkbox" id="incluyeDescuento" onchange="calcular()">
+      <label> Incluir Descuento</label>
     </div>
         
     
@@ -80,16 +84,21 @@ function calcular() {
     var ancho = parseFloat(document.getElementById("ancho").value) || 0;
     var alto = parseFloat(document.getElementById("alto").value) || 0;
     var precioDiseno = parseFloat(document.getElementById("precioDiseno").value) || 0;
+    var precioDescuento = parseFloat(document.getElementById("precioDescuento").value) || 0;
     var incluyeDiseno = document.getElementById("incluyeDiseno").checked;
+    var incluyeDescuento = document.getElementById("incluyeDescuento").checked;
 
     var area = ancho * alto;
     var base = area * precioM2;
-    var total = base + (incluyeDiseno ? precioDiseno : 0);
+    var total = base + (incluyeDiseno ? precioDiseno : 0) - (incluyeDescuento ? precioDescuento : 0);
 
     var texto = "Área: " + area.toFixed(2) + " m²<br>" +
                 "Precio base: $" + base.toLocaleString() + "<br>";
     if (incluyeDiseno) {
         texto += "Diseño: $" + precioDiseno.toLocaleString() + "<br>";
+    }
+    if (incluyeDescuento) {
+        texto += "Descuento: $" + precioDescuento.toLocaleString() + "<br>";
     }
     texto += "<strong>Total: $" + total.toLocaleString() + "</strong>";
     document.getElementById("resultado").innerHTML = texto;
