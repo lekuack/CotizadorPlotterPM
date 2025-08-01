@@ -23,8 +23,9 @@
               justify-content: center; align-items: center; z-index: 9999; }
     #splash img { width: 150px; height: 150px; margin-bottom: 15px; }
     #splash h1 { color: #E5007E; font-size: 26px; margin: 0; }
-    #splash p { color: #555; font-size: 16px; margin-top: 5px; }
-    .checkbox-container{ display: inline-flex; align-items: center;}
+    #splash p { color: #555; font-size: 16px; margin-top: 5px; width: 100%;}
+    .checkbox-container{ display: inline-flex; align-items: center; }
+    #incluyeDiseno{width: 30px;}
     label { vertical-align: middle; margin-top: 10px; font-weight: bold;}
 </style>
 </head>
@@ -50,14 +51,14 @@
 
     <label>Servicio de diseño ($):</label>
     <input type="number" id="precioDiseno" value="10000" onchange="calcular()">
-
-    <label>Descuento ($):</label>
-    <input type="number" id="precioDiseno" value="10000" onchange="calcular()">
-    
     <div class="checkbox-container">
       <input type="checkbox" id="incluyeDiseno" onchange="calcular()">
       <label> Incluir servicio de diseño</label>
     </div>
+    </hr>
+    <label>Descuento ($):</label>
+    <input type="number" id="precioDiseno" value="10000" onchange="calcular()">
+        
     
     <button onclick="calcular()">Calcular</button>
     <div class="result" id="resultado"></div>
